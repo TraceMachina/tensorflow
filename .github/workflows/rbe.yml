@@ -20,8 +20,8 @@ jobs:
       shell: bash
       run: |
         bazel build \
-          --repo_env=HERMETIC_PYTHON_VERSION=3.12
-          --repo_env=WHEEL_NAME=tensorflow_cpu
+          --repo_env=HERMETIC_PYTHON_VERSION=3.12 \
+          --repo_env=WHEEL_NAME=tensorflow_cpu \
           --remote_cache=grpcs://cas-bclark8923-d21fad.build-faster.nativelink.net \
           --remote_header=x-nativelink-api-key=${{ secrets.NATIVELINK_COM_SECRET }} \
           --bes_backend=grpcs://bes-bclark8923-d21fad.build-faster.nativelink.net \
