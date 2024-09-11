@@ -9,7 +9,7 @@ permissions: read-all
 jobs:
   tensorflow-rbe-test:
     runs-on: ubuntu-22.04
-    container: tensorflow/tensorflow:devel
+    container: tensorflow/tensorflow:latest
     
     steps:
     - name: Checkout
