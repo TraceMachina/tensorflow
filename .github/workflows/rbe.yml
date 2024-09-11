@@ -8,7 +8,7 @@ permissions: read-all
 
 jobs:
   tensorflow-rbe-test:
-    runs-on: ubuntu-22.04-16core
+    runs-on: large-ubuntu-22.04
     env:
       CC: gcc-12
       CXX: g++-12
