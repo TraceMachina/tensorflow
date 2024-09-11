@@ -488,7 +488,6 @@ build:resultstore --bes_timeout=600s
 common --experimental_repo_remote_exec
 
 # Make Bazel not try to probe the host system for a C++ toolchain.
-build:rbe_base --config=resultstore
 build:rbe_base --repo_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
 build:rbe_base --define=EXECUTOR=remote
 build:rbe_base --jobs=800
