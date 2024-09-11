@@ -9,7 +9,6 @@ permissions: read-all
 jobs:
   tensorflow-rbe-test:
     runs-on: ubuntu-22.04
-    container: tensorflow/tensorflow:nightly
     
     steps:
     - name: Checkout
@@ -35,7 +34,7 @@ jobs:
           --bes_header=x-nativelink-api-key=${{ secrets.NATIVELINK_COM_SECRET }} \
           --bes_results_url=https://app.nativelink.com/a/bclark8923/build \
           --remote_header=x-nativelink-project=tensorflow \
-          //tensorflow/tools/pip_package:wheel 
+          //tensorflow 
 
       # --remote_cache=grpcs://cas-bclark8923-d21fad.build-faster.nativelink.net \
       # --remote_default_exec_properties="container-image=docker://tensorflow/tensorflow:devel"
