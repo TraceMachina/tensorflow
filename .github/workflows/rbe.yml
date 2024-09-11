@@ -31,5 +31,4 @@ jobs:
           --bes_header=x-nativelink-api-key=${{ secrets.NATIVELINK_COM_SECRET }} \
           --bes_results_url=https://app.nativelink.com/a/bclark8923/build \
           --remote_header=x-nativelink-project=tensorflow \
-          --remote_executor=grpcs://scheduler-bclark8923-d21fad.build-faster.nativelink.net:443 \
           //tensorflow/tools/pip_package:wheel --repo_env=WHEEL_NAME=tensorflow_cpu
