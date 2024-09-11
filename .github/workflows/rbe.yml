@@ -16,6 +16,11 @@ jobs:
       uses: >- # v4.1.1
         actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
+    - name: Install Clang
+      shell: bash
+      run: |
+        sudo apt-get update && sudo apt-get install -y llvm-17 clang-17
+
     - name: Run Bazel build
       shell: bash
       run: |
