@@ -1,0 +1,35 @@
+name: CI
+
+# Controls when the workflow will run.
+on:
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  nativelink-dot-com-rbe-test:
+    runs-on: ubuntu-22.04
+    environment: production
+    
+    steps:
+    - name: Checkout
+      uses: >- # v4.1.1
+        actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+
+    - name: Setup Bazelisk
+      uses: >- # v0.8.1
+        bazel-contrib/setup-bazel@b388b84bb637e50cdae241d0f255670d4bd79f29
+      with:
+        bazelisk-cache: true
+    - name: Run Bazel tests
+      shell: bash
+      run: |
+        bazel build \
+          --remote_cache=grpcs://cas-bclark8923-d21fad.build-faster.nativelink.net \
+          --remote_header=x-nativelink-api-key=${{ secrets.NATIVELINK_COM_SECRET }} \
+          --bes_backend=grpcs://bes-bclark8923-d21fad.build-faster.nativelink.net \
+          --bes_header=x-nativelink-api-key=${{ secrets.NATIVELINK_COM_SECRET }} \
+          --bes_results_url=https://app.nativelink.com/a/bclark8923/build \
+          --remote_header=x-nativelink-project=tensorflow \
+          --remote_executor=grpcs://scheduler-bclark8923-d21fad.build-faster.nativelink.net:443 \
+          //tensorflow/tools/pip_package:wheel --repo_env=WHEEL_NAME=tensorflow_cpu
