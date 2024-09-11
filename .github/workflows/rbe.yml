@@ -22,11 +22,6 @@ jobs:
       with:
         bazelisk-cache: true
 
-    - name: Install Clang
-      shell: bash
-      run: |
-        sudo apt-get update && sudo apt-get install -y llvm clang
-
     - name: Run Bazel build
       shell: bash
       run: |
