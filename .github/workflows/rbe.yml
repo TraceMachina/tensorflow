@@ -7,9 +7,8 @@ on:
 permissions: read-all
 
 jobs:
-  nativelink-dot-com-rbe-test:
+  tensorflow-rbe-test:
     runs-on: ubuntu-22.04
-    environment: production
     
     steps:
     - name: Checkout
@@ -22,12 +21,12 @@ jobs:
       with:
         bazelisk-cache: true
 
-    - name: Install Claing
+    - name: Install Clang
       shell: bash
       run: |
-        sudo apt-get update && sudo apt-get install -y llvm-17 clang-17
+        sudo apt-get update && sudo apt-get install -y llvm clang
 
-    - name: Run Bazel tests
+    - name: Run Bazel build
       shell: bash
       run: |
         bazel build \
