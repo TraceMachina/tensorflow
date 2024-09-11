@@ -9,6 +9,9 @@ permissions: read-all
 jobs:
   tensorflow-rbe-test:
     runs-on: ubuntu-22.04
+    env:
+      CC: gcc-12
+      CXX: g++-12
     
     steps:
     - name: Checkout
@@ -27,13 +30,14 @@ jobs:
         bazel build \
           --repo_env=HERMETIC_PYTHON_VERSION=3.11 \
           --config=linux \
+          --repo_env=WHEEL_NAME=tensorflow_cpu
           --remote_cache=grpcs://cas-bclark8923-d21fad.build-faster.nativelink.net \
           --remote_header=x-nativelink-api-key=${{ secrets.NATIVELINK_COM_SECRET }} \
           --bes_backend=grpcs://bes-bclark8923-d21fad.build-faster.nativelink.net \
           --bes_header=x-nativelink-api-key=${{ secrets.NATIVELINK_COM_SECRET }} \
           --bes_results_url=https://app.nativelink.com/a/bclark8923/build \
           --remote_header=x-nativelink-project=tensorflow \
-          //tensorflow 
+          //tensorflow/tools/pip_package:wheel
 
       # --remote_cache=grpcs://cas-bclark8923-d21fad.build-faster.nativelink.net \
       # --remote_default_exec_properties="container-image=docker://tensorflow/tensorflow:devel"
