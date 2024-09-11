@@ -21,6 +21,12 @@ jobs:
         bazel-contrib/setup-bazel@b388b84bb637e50cdae241d0f255670d4bd79f29
       with:
         bazelisk-cache: true
+
+    - name: Install Claing
+      shell: bash
+      run: |
+        sudo apt-get update && sudo apt-get install -y llvm-17 clang-17
+
     - name: Run Bazel tests
       shell: bash
       run: |
