@@ -8,7 +8,7 @@ permissions: read-all
 
 jobs:
   tensorflow-rbe-test:
-    runs-on: large-ubuntu-22.04
+    runs-on: ubuntu-22.04
     env:
       CC: gcc-12
       CXX: g++-12
@@ -30,6 +30,7 @@ jobs:
         bazel build \
           --repo_env=HERMETIC_PYTHON_VERSION=3.11 \
           --config=linux \
+          --config=rbe_linux \
           --repo_env=WHEEL_NAME=tensorflow_cpu \
           --remote_cache=grpcs://cas-bclark8923-d21fad.build-faster.nativelink.net \
           --remote_header=x-nativelink-api-key=${{ secrets.NATIVELINK_COM_SECRET }} \
@@ -39,4 +40,42 @@ jobs:
           --remote_header=x-nativelink-project=tensorflow \
           --remote_cache=grpcs://cas-bclark8923-d21fad.build-faster.nativelink.net \
           --remote_default_exec_properties="container-image=docker://tensorflow/tensorflow:nightly" \
+          //tensorflow/tools/pip_package:wheel
+
+  tensorflow-rbe-gpu-test:
+    runs-on: ubuntu-22.04
+    if: false
+    env:
+      CC: gcc-12
+      CXX: g++-12
+    
+    steps:
+    - name: Checkout
+      uses: >- # v4.1.1
+        actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+
+    - name: Setup Bazelisk
+      uses: >- # v0.8.1
+        bazel-contrib/setup-bazel@b388b84bb637e50cdae241d0f255670d4bd79f29
+      with:
+        bazelisk-cache: true
+
+    - name: Run Bazel build
+      shell: bash
+      run: |
+        bazel build \
+          --repo_env=HERMETIC_PYTHON_VERSION=3.11 \
+          --config=linux \
+          --config=rbe_linux \
+          --config=cuda \
+          --config=cuda_wheel \
+          --repo_env=WHEEL_NAME=tensorflow \
+          --remote_cache=grpcs://cas-bclark8923-d21fad.build-faster.nativelink.net \
+          --remote_header=x-nativelink-api-key=${{ secrets.NATIVELINK_COM_SECRET }} \
+          --bes_backend=grpcs://bes-bclark8923-d21fad.build-faster.nativelink.net \
+          --bes_header=x-nativelink-api-key=${{ secrets.NATIVELINK_COM_SECRET }} \
+          --bes_results_url=https://app.nativelink.com/a/bclark8923/build \
+          --remote_header=x-nativelink-project=tensorflow \
+          --remote_cache=grpcs://cas-bclark8923-d21fad.build-faster.nativelink.net \
+          --remote_default_exec_properties="container-image=docker://tensorflow/tensorflow:nightly-gpu" \
           //tensorflow/tools/pip_package:wheel
