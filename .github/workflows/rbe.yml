@@ -16,6 +16,12 @@ jobs:
       uses: >- # v4.1.1
         actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
+    - name: Setup Bazelisk
+      uses: >- # v0.8.1
+        bazel-contrib/setup-bazel@b388b84bb637e50cdae241d0f255670d4bd79f29
+      with:
+        bazelisk-cache: true
+
     - name: Run Bazel build
       shell: bash
       run: |
